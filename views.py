@@ -8,6 +8,7 @@ from rHTTP import HttpRequest
 
 class View (ABC) : 
     request:HttpRequest = None
+    request = None
     method:str = ""
     fields:dict[str, Any] = {}
     url:str = ""
@@ -30,3 +31,21 @@ class View (ABC) :
 
     def errors(self) : 
         return self.__errors
+    
+
+class APIDocs (View) :
+    method = "GET"
+    url = "/__docs__/"
+    views_list = []
+
+    def get_response(self) : 
+        apis = []
+        for view in self.views_list: 
+            view_obj = view()
+            apis.append({
+                'url' : view_obj.url,
+                'method' : view_obj.method,
+                'fields' : list(view_obj.fields.keys()) if view_obj.fields else []
+            })
+
+        return apis, 200
