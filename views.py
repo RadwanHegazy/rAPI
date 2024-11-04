@@ -40,7 +40,7 @@ class APIDocs (View) :
 
     def get_response(self) : 
         apis = []
-        for view in self.views_list: 
+        for view in self.views_list[:-1]: 
             view_obj = view()
             apis.append({
                 'url' : view_obj.url,
