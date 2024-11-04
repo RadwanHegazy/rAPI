@@ -17,12 +17,27 @@ class HttpRequest:
     @property
     def data (self) -> dict : 
         bytes_data = self.request_bytes.split('\n\r\n')[-1]
-        json_data = json.loads(bytes_data)
+        try : 
+            json_data = json.loads(bytes_data)
+        except json.decoder.JSONDecodeError : 
+            json_data = {}
         return json_data
     
+    @property
+    def query (self) -> dict:
+        data = {}
+        for k in self.path_query.split("&") : 
+            query = k.split('=')
+            data[query[0]] = query[1]
+            
+        return data
+
     def handle (self) : 
         request_line = self.request_bytes.splitlines()[0]
         self.method, self.path, _ = request_line.split()
+
+        if "?" in self.path:
+            self.path, self.path_query  = self.path.split('?')
         
         get_view = None
         for view in self.views_list :
