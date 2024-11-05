@@ -2,7 +2,7 @@
     Server Side main Logic
 """
 import socket, threading, keyboard
-from rHTTP import HttpRequest
+from .rHTTP import HttpRequest
 
 class ThreadMapper:
     def thread_mapper(self, client_socket, addr) :

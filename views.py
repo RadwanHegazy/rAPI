@@ -4,7 +4,7 @@
 
 from abc import ABC, abstractmethod
 from typing import Any
-from rHTTP import HttpRequest
+from .rHTTP import HttpRequest
 
 class View (ABC) : 
     request:HttpRequest = None
